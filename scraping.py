@@ -1,5 +1,5 @@
 # Import Splinter and BeautifulSoup and pandas
-from splinter.browser import Browser
+from splinter import Browser
 from bs4 import BeautifulSoup as soup
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
@@ -8,6 +8,7 @@ import datetime as dt
 
 def scrape_all():
     # Initiate headless driver for deployment
+    
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=True)
     
@@ -27,7 +28,8 @@ def scrape_all():
 def mars_news(browser):
 
     # Visit the mars nasa news site
-    url = 'https://redplanetscience.com'
+    # url = 'https://redplanetscience.com'
+    url = 'https://data-class-mars.s3.amazonaws.com/Mars/index.html'
     browser.visit(url)
     # Optional delay for loading the page
     browser.is_element_present_by_css('div.list_text', wait_time=1)
@@ -41,7 +43,7 @@ def mars_news(browser):
     try:
         slide_elem = news_soup.select_one('div.list_text')
 
-        slide_elem.find('div', class_='content_title')
+        # slide_elem.find('div', class_='content_title')
 
         # Use the parent element to find the first `a` tag and save it as `news_title`
         news_title = slide_elem.find('div', class_='content_title').get_text()
@@ -58,7 +60,8 @@ def mars_news(browser):
 def featured_image(browser):
     
     # Visit URL
-    url = 'https://spaceimages-mars.com'
+    # url = 'https://spaceimages-mars.com'
+    url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html'
     browser.visit(url)
     # Find and click the full image button
     full_image_elem = browser.find_by_tag('button')[1]
@@ -76,8 +79,8 @@ def featured_image(browser):
         return None
     
     # Use the base URL to create an absolute URL
-    img_url = f'https://spaceimages-mars.com/{img_url_rel}'
-    
+    # img_url = f' url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/'{img_url_rel}'
+    img_url = f'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/{img_url_rel}'
     return img_url
 
 
